@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Engineering Portfolio</title>
+  <meta name="description" content="Joanie Hui — Mechanical Engineering portfolio, University of Waterloo">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=IBM+Plex+Mono:wght@500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Hand-drawn wobble applied to every line sketch -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <filter id="rough">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4"/>
+      <feDisplacementMap in="SourceGraphic" scale="2.2"/>
+    </filter>
+    <!-- Choppier wobble for box outlines and divider lines -->
+    <filter id="rough-line" x="-5%" y="-20%" width="110%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.07" numOctaves="2" seed="9"/>
+      <feDisplacementMap in="SourceGraphic" scale="3.6"/>
+    </filter>
+  </svg>
+
+  <header class="topbar">
+    <a href="#top" class="logo" id="logo" aria-label="Back to top"></a>
+    <nav class="nav">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#documents">Resume</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <div class="hero-text">
+        <p class="eyebrow">Engineering Portfolio</p>
+        <h1 id="heroName"></h1>
+        <p class="hero-role" id="heroRole"></p>
+        <p class="hero-tagline" id="heroTagline"></p>
+        <div class="hero-cta">
+          <a href="#projects" class="btn primary">Browse the collection</a>
+          <a id="resumeBtn" class="btn" target="_blank" rel="noopener">Résumé ↗</a>
+          <a id="portfolioBtn" class="btn" target="_blank" rel="noopener">PDF portfolio ↗</a>
+        </div>
+        <ul class="hero-facts" id="heroFacts"></ul>
+      </div>
+
+      <div class="turntable-wrap">
+        <svg class="turntable" id="turntable" viewBox="0 0 380 300" fill="none" stroke="currentColor"
+             stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"
+             role="button" tabindex="0" aria-label="Turntable. Click to start or stop the record.">
+          <g filter="url(#rough)">
+          <rect x="12" y="16" width="356" height="268" rx="16"/>
+          <rect x="24" y="28" width="332" height="244" rx="10" stroke-width=".7" opacity=".45"/>
+          <circle cx="160" cy="150" r="112" stroke-width=".8" opacity=".45"/>
+          </g>
+          <g class="platter">
+            <circle cx="160" cy="150" r="104" class="fill-surface"/>
+            <circle cx="160" cy="150" r="94" stroke-width=".6" opacity=".55"/>
+            <circle cx="160" cy="150" r="82" stroke-width=".6" opacity=".55"/>
+            <circle cx="160" cy="150" r="70" stroke-width=".6" opacity=".55"/>
+            <circle cx="160" cy="150" r="58" stroke-width=".6" opacity=".55"/>
+            <path d="M160 62 A88 88 0 0 1 236 106" stroke-width="1.1" opacity=".5"/>
+            <path d="M84 194 A88 88 0 0 0 116 228" stroke-width="1.1" opacity=".5"/>
+            <circle cx="160" cy="150" r="34" class="lbl"/>
+            <path d="M142 140 h36" class="a" stroke-width="1.4"/>
+            <path d="M148 160 h24" class="a" stroke-width="1.1"/>
+            <circle cx="160" cy="150" r="3" class="fill-ink"/>
+          </g>
+          <g filter="url(#rough)">
+          <g class="tonearm">
+            <circle cx="318" cy="62" r="18"/>
+            <circle cx="318" cy="62" r="6"/>
+            <path d="M318 62 L312 190 L262 222"/>
+            <rect x="248" y="214" width="22" height="13" rx="3" transform="rotate(-32 259 220)"/>
+          </g>
+          <circle cx="300" cy="250" r="9"/>
+          <circle cx="332" cy="250" r="9"/>
+          <text x="36" y="262" class="tt-text">33⅓</text>
+          </g>
+        </svg>
+        <p class="hand-note" id="ttNote">↑ click to drop the needle</p>
+      </div>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section id="about" class="section">
+      <header class="section-head reveal">
+        <p class="eyebrow">Side A</p>
+        <h2>About</h2>
+        <svg class="squiggle sketch" viewBox="0 0 120 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 6 Q 17 0 32 6 T 62 6 T 92 6 T 118 5"/></svg>
+      </header>
+      <div class="about-grid">
+        <div class="about-text reveal" id="aboutText"></div>
+        <div class="liner-card reveal">
+          <p class="liner-title">Liner notes</p>
+          <dl id="specList"></dl>
+        </div>
+      </div>
+      <div class="about-grid lower">
+        <div class="reveal">
+          <h3 class="mini-head">On rotation</h3>
+          <ul class="interests" id="interests"></ul>
+        </div>
+        <div class="reveal">
+          <h3 class="mini-head"><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span> Now playing</h3>
+          <ul class="currently" id="currently"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EXPERIENCE ============ -->
+    <section id="experience" class="section">
+      <header class="section-head reveal">
+        <p class="eyebrow">Discography</p>
+        <h2>Experience</h2>
+        <svg class="squiggle sketch" viewBox="0 0 120 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 6 Q 17 0 32 6 T 62 6 T 92 6 T 118 5"/></svg>
+      </header>
+      <ol class="discography reveal" id="experienceList"></ol>
+    </section>
+
+    <!-- ============ PROJECTS / RECORD SHELF ============ -->
+    <section id="projects" class="section">
+      <header class="section-head reveal">
+        <p class="eyebrow">The collection</p>
+        <h2>Projects</h2>
+        <svg class="squiggle sketch" viewBox="0 0 120 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 6 Q 17 0 32 6 T 62 6 T 92 6 T 118 5"/></svg>
+      </header>
+      <div class="crate-row reveal">
+        <div class="filters" id="filters" role="toolbar" aria-label="Filter projects"></div>
+        <p class="hand-note small">pull one out to play it ↓</p>
+      </div>
+      <div class="shelf-grid" id="projectGrid"></div>
+    </section>
+
+    <!-- ============ RESUME & PDF PORTFOLIO ============ -->
+    <section id="documents" class="section">
+      <header class="section-head reveal">
+        <p class="eyebrow">Bonus tracks</p>
+        <h2>Resume &amp; Portfolio</h2>
+        <svg class="squiggle sketch" viewBox="0 0 120 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 6 Q 17 0 32 6 T 62 6 T 92 6 T 118 5"/></svg>
+      </header>
+      <div class="doc-crate reveal">
+        <div class="doc-records" id="docTabs" role="tablist" aria-label="Documents"></div>
+        <div class="now-playing-card">
+          <p class="mini-head"><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span> Now playing</p>
+          <p class="np-title" id="docTitle"></p>
+          <p class="np-hint hand-note small">pick a record to switch ↙</p>
+          <a class="btn" id="docOpen" target="_blank" rel="noopener">Open in new tab ↗</a>
+        </div>
+      </div>
+      <div class="doc-viewer reveal">
+        <div class="doc-viewer-label" id="docLabel"></div>
+        <iframe id="docFrame" title="Document viewer" loading="lazy"></iframe>
+        <p class="doc-fallback">If the document doesn't show up here, use “Open in new tab”.</p>
+      </div>
+    </section>
+
+    <!-- ============ SKILLS ============ -->
+    <section id="skills" class="section">
+      <header class="section-head reveal">
+        <p class="eyebrow">Credits</p>
+        <h2>Skills</h2>
+        <svg class="squiggle sketch" viewBox="0 0 120 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 6 Q 17 0 32 6 T 62 6 T 92 6 T 118 5"/></svg>
+      </header>
+      <div class="skills" id="skillsGrid"></div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section id="contact" class="section">
+      <div class="contact-box reveal">
+        <p class="eyebrow">Side B</p>
+        <h3 id="contactHeadline"></h3>
+        <p id="contactText"></p>
+        <div class="contact-actions">
+          <a class="btn primary big" id="emailBtn"></a>
+          <button class="btn big" id="copyEmail" type="button">Copy email</button>
+        </div>
+        <ul class="socials" id="socials"></ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span id="footerText"></span>
+    <span class="hand-note small">thanks for digging through the crate ♪</span>
+  </footer>
+
+  <!-- ============ RECORD PLAYER MODAL ============ -->
+  <dialog id="projectModal" class="modal" aria-labelledby="modalTitle">
+    <button class="modal-close" id="modalClose" type="button" aria-label="Close">✕</button>
+    <div class="modal-body">
+      <div class="player">
+        <div class="m-stage">
+          <div class="m-disc" id="mDisc"></div>
+          <div class="m-sleeve">
+            <div class="sleeve-art" id="mArt"></div>
+            <img id="galleryImg" alt="">
+            <button class="gal-nav prev" id="galPrev" type="button" aria-label="Previous photo">‹</button>
+            <button class="gal-nav next" id="galNext" type="button" aria-label="Next photo">›</button>
+          </div>
+        </div>
+        <p class="gallery-caption" id="galleryCaption"></p>
+        <div class="thumbs" id="thumbs"></div>
+      </div>
+      <div class="liner">
+        <p class="modal-meta" id="modalMeta"></p>
+        <h3 id="modalTitle"></h3>
+        <div class="modal-stats" id="modalStats"></div>
+        <p class="mini-head">Tracklist</p>
+        <ol class="tracklist" id="modalDesc"></ol>
+        <p class="mini-head">Credits</p>
+        <ul class="tags" id="modalTags"></ul>
+        <div class="modal-links" id="modalLinks"></div>
+      </div>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

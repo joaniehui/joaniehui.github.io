@@ -1,0 +1,23 @@
+Save your photos here with these names (or edit the names in js/config.js).
+The first photo of each project becomes its album cover on the shelf.
+Until a photo exists, the record shows a line-art cover instead.
+.png works too, just change the extension in config.js.
+
+MUSASHI
+  Torque Machine Calibration:       calibration-1.jpg ... calibration-4.jpg
+  Radial Lift Test Fixture:         radial-fixture-1.jpg ... radial-fixture-3.jpg
+  Ball Joint Testing & Validation:  ball-joint-1.jpg ... ball-joint-3.jpg
+  Taper Holders:                    taper-1.jpg, taper-2.jpg
+
+FORMULA ELECTRIC
+  Floor Panels & Composites:        floor-1.jpg ... floor-3.jpg, composites-1.jpg, composites-2.jpg
+  LV Battery Enclosure:             lv-enclosure-1.jpg ... lv-enclosure-3.jpg
+  Primary & Secondary Firewalls:    firewall-1.jpg ... firewall-3.jpg
+  Vehicle Maintenance Stands:       stands-1.jpg ... stands-3.jpg
+  Chassis Frame:                    frame-1.jpg
+  Pedal Welding Jigs:               jigs-1.jpg
+  Pedal Heel Cups:                  heel-cups-1.jpg
+  Mock Front Bulkhead:              bulkhead-1.jpg, bulkhead-2.jpg
+
+ROBOTICS
+  VEX Pipetting Machine:            pipetting-1.jpg, pipetting-2.jpg
