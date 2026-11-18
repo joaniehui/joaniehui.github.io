@@ -29,10 +29,9 @@ window.PORTFOLIO = {
   accent: "",                          // leave "" for the grayish blue, or put any color like "#2f6fb0"
 
   // ---------- About ----------
-  about: [
-    "I'm a Mechanical Engineering student at the University of Waterloo. Right now I'm an R&D Testing co-op at Musashi North Americas, where I calibrate test equipment, design fixtures, and validate suspension ball joints and control arms against customer specs.",
-    "On UW Formula Electric, I lead Chassis Safety & Ergonomics. I design the cockpit firewall and carbon fiber floor, and the jigs, stands and enclosures that help the team build the car.",
-    "I like work where the CAD, the physical part, and the data all have to agree. Next, I want to get into the electronics side of things.",
+    about: [
+    "I'm a Mechanical Engineering student at the University of Waterloo, currently on co-op in R&D Testing at Musashi North Americas and leading Chassis Safety & Ergonomics on UW Formula Electric.",
+    "I'm happiest when a project takes me from CAD and virtual validation all the way to hands-on fabrication and physical testing. I'm always looking for chances to learn something new, especially in fields I haven't explored yet.",
   ],
 
   // Shown as "Liner notes" beside the About text
