@@ -21,6 +21,10 @@ window.PORTFOLIO = {
   // You can use a file in this folder (like "assets/resume.pdf") or a Google Drive share link.
   resume: "assets/resume.pdf",
   portfolioPdf: "https://drive.google.com/file/d/1wNL47646Q7aJTWn6l1dW6U0sUfzBA4tb/view?usp=sharing",
+  // Your photo, shown in the centre of the spinning record at the top of the page.
+  // Save a square-ish photo as images/me.jpg (or change the name here). Set to "" to hide it.
+  photo: "images/me.jpg",
+  photoSpins: false,                   // true = your photo spins with the record
   socials: [
     { label: "LinkedIn", url: "https://www.linkedin.com/in/joaniehui/" },
   ],
