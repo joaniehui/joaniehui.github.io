@@ -286,7 +286,7 @@ window.PORTFOLIO = {
         "Accurate headrest placement is part of meeting FSAE rollover safety rules, so the jig keeps the car compliant.",
       ],
       images: [
-        { src: "images/projects/jig-2.jpg", caption: "Headrest locating jig" },
+        { src: "images/projects/jigs-2.jpg", caption: "Headrest locating jig" },
       ],
       tags: ["Jig design", "SolidWorks", "FSAE rules", "Rollover safety"],
       links: [],
