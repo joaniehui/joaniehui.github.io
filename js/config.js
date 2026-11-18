@@ -24,7 +24,7 @@ window.PORTFOLIO = {
   // Your photo, shown in the centre of the spinning record at the top of the page.
   // Save a square-ish photo as images/projects/me.jpg (or change the name here). Set to "" to hide it.
   photo: "images/projects/me.jpg",
-  photoSpins: true,                   // true = your photo spins with the record
+  photoSpins: false,                   // true = your photo spins with the record
   socials: [
     { label: "LinkedIn", url: "https://www.linkedin.com/in/joaniehui/" },
   ],
