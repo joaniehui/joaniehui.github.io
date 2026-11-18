@@ -112,3 +112,247 @@
             <div class="disc">${discFor(d.fmt)}</div>
             <div class="sleeve">
               <div class="doc-cover">
+                <span class="doc-side">${esc(d.side)}</span>
+                <strong>${esc(d.label)}</strong>
+                <span class="doc-artist">${esc(C.name)}</span>
+              </div>
+            </div>
+          </div>
+          <div class="plank"></div>
+        </button>`).join("");
+    $("#docTabs").addEventListener("click", (e) => { const r = e.target.closest(".doc-record"); if (r) showDoc(r.dataset.doc); });
+    showDoc(docs[0].id);
+  } else {
+    $("#documents").remove();
+    document.querySelector('.nav a[href="#documents"]')?.remove();
+  }
+  // Hero buttons jump to the viewer and open the right document
+  [["#resumeBtn", "resume"], ["#portfolioBtn", "portfolio"]].forEach(([sel, id]) => {
+    const btn = $(sel);
+    if (!docs.some((d) => d.id === id)) { btn.remove(); return; }
+    btn.href = "#documents";
+    btn.removeAttribute("target");
+    btn.textContent = id === "resume" ? "Résumé" : "PDF portfolio";
+    btn.addEventListener("click", () => showDoc(id));
+  });
+  $("#heroFacts").innerHTML = [
+    C.location && `<li>📍 ${esc(C.location)}</li>`,
+    C.status && `<li class="status">${esc(C.status)}</li>`,
+    `<li>💿 ${C.projects.length} records in the collection</li>`,
+  ].filter(Boolean).join("");
+
+  // Your photo in the centre of the turntable record
+  const tt = $("#turntable");
+  const photoHolder = $(C.photoSpins ? "#ttPhotoSpin" : "#ttPhotoStill");   // these spots are in the new index.html
+  const labelArt = tt.querySelector(".label-art");
+  if (C.photo && photoHolder) {
+    const NS = "http://www.w3.org/2000/svg";
+    const g = document.createElementNS(NS, "g");
+    g.innerHTML = `<defs><clipPath id="ttPhotoClip"><circle cx="160" cy="150" r="46"/></clipPath></defs>
+      <circle cx="160" cy="150" r="49" class="fill-surface" stroke-width="1.2"/>
+      <image href="${esc(C.photo)}" x="114" y="104" width="92" height="92" clip-path="url(#ttPhotoClip)" preserveAspectRatio="xMidYMid slice"/>
+      <circle cx="160" cy="150" r="46" class="a" stroke-width="1.4"/>`;
+    photoHolder.appendChild(g);
+    if (labelArt) labelArt.style.display = "none";
+    // if the photo file is missing, go back to the plain label
+    g.querySelector("image").addEventListener("error", () => { g.remove(); if (labelArt) labelArt.style.display = ""; });
+  }
+
+  // Turntable: click to play / stop
+  const toggleTT = () => {
+    const on = tt.classList.toggle("playing");
+    $("#ttNote").textContent = on ? "♪ now spinning, click to stop" : "↑ click to drop the needle";
+  };
+  tt.addEventListener("click", toggleTT);
+  tt.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleTT(); } });
+  if (!reduceMotion) setTimeout(() => { if (!tt.classList.contains("playing")) toggleTT(); }, 900);
+
+  /* ---------- About ---------- */
+  $("#aboutText").innerHTML = (C.about || []).map((p) => `<p>${esc(p)}</p>`).join("");
+  $("#specList").innerHTML = (C.specs || []).map((s) => `<dt>${esc(s.label)}</dt><dd>${esc(s.value)}</dd>`).join("");
+  $("#interests").innerHTML = (C.interests || [])
+    .map((it) => `<li class="interest"><span class="icon">${esc(it.icon)}</span><strong>${esc(it.label)}</strong><small>${esc(it.note)}</small></li>`)
+    .join("");
+  $("#currently").innerHTML = (C.currently || []).map((c) => `<li>${esc(c)}</li>`).join("");
+
+  /* ---------- Discography (experience) ---------- */
+  const exp = C.experience || [];
+  if (exp.length) {
+    $("#experienceList").innerHTML = exp
+      .map((e, i) => `<li><span class="trk">${pad(i + 1)}</span>
+        <span class="exp-main"><strong>${esc(e.title)}</strong><span>${esc([e.org, e.where].filter(Boolean).join(" · "))}</span></span>
+        <span class="exp-when">${esc(e.when)}</span></li>`)
+      .join("");
+  } else {
+    $("#experience").remove();
+    document.querySelector('.nav a[href="#experience"]')?.remove();
+  }
+
+  /* ---------- Record shelf ---------- */
+  const projects = C.projects || [];
+  const categories = ["All", ...new Set(projects.map((p) => p.category).filter(Boolean))];
+  const count = (c) => (c === "All" ? projects.length : projects.filter((p) => p.category === c).length);
+  let activeFilter = "All";
+
+  $("#filters").innerHTML = categories
+    .map((c) => `<button class="filter${c === "All" ? " active" : ""}" data-cat="${esc(c)}" type="button">${esc(c)}<small>${count(c)}</small></button>`)
+    .join("");
+  $("#filters").addEventListener("click", (e) => {
+    const btn = e.target.closest(".filter");
+    if (!btn) return;
+    activeFilter = btn.dataset.cat;
+    document.querySelectorAll(".filter").forEach((b) => b.classList.toggle("active", b === btn));
+    renderShelf(true);
+  });
+
+  function renderShelf(instant = false) {
+    const list = projects.map((p, idx) => ({ p, idx })).filter(({ p }) => activeFilter === "All" || p.category === activeFilter);
+    const grid = $("#projectGrid");
+    if (!list.length) { grid.innerHTML = `<p class="empty">This crate is empty for now.</p>`; return; }
+    grid.innerHTML = list
+      .map(({ p, idx }) => {
+        const cover = p.images && p.images.length ? normImg(p.images[0]) : null;
+        const fmt = formatOf(p, idx);
+        return `<article class="record ${fmt}${instant ? " in" : ""} reveal" tabindex="0" data-idx="${idx}" aria-label="Play ${esc(p.title)}">
+          <span class="play-hint">play ▸</span>
+          <div class="record-stage">
+            <div class="disc">${discFor(fmt)}</div>
+            <div class="sleeve">
+              <div class="sleeve-art">${sleeveArt(idx)}</div>
+              ${cover ? `<img src="${esc(cover.src)}" alt="${esc(cover.caption || p.title)}" loading="lazy"${imgStyle(cover)} onerror="this.remove()">` : ""}
+              <span class="cat">P-${pad(idx + 1)}</span>
+              ${p.upcoming ? `<span class="sticker">coming soon</span>` : ""}
+            </div>
+          </div>
+          <div class="plank"></div>
+          <div class="record-info">
+            <span class="rec-meta">${esc([p.category, p.year].filter(Boolean).join(" · "))}</span>
+            <h3>${esc(p.title)}</h3>
+            <p>${esc(p.summary)}</p>
+          </div>
+        </article>`;
+      })
+      .join("");
+    if (!instant) observeReveals();
+  }
+
+  $("#projectGrid").addEventListener("click", (e) => {
+    const rec = e.target.closest(".record");
+    if (rec) openProject(+rec.dataset.idx);
+  });
+  $("#projectGrid").addEventListener("keydown", (e) => {
+    const rec = e.target.closest(".record");
+    if (rec && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); openProject(+rec.dataset.idx); }
+  });
+
+  /* ---------- Record player (project viewer) ---------- */
+  const modal = $("#projectModal");
+  let gallery = [], gIdx = 0, lastFocus = null, currentIdx = 0;
+
+
+  function openProject(idx) {
+    const p = projects[idx];
+    currentIdx = idx;
+    lastFocus = document.activeElement;
+    gallery = (p.images || []).map(normImg);
+
+    const fmt = formatOf(p, idx);
+    modal.classList.toggle("is-cd", fmt === "cd");
+    $("#mDisc").innerHTML = discFor(fmt);
+    $("#mArt").innerHTML = sleeveArt(idx);
+    $("#modalMeta").textContent = [`P-${pad(idx + 1)}`, p.category, p.year].filter(Boolean).join(" · ");
+    $("#modalTitle").textContent = p.title;
+    $("#modalStats").innerHTML = (p.stats || []).map((s) => `<div><strong>${esc(s.value)}</strong><span>${esc(s.label)}</span></div>`).join("");
+    $("#modalStats").style.display = p.stats && p.stats.length ? "" : "none";
+    const desc = Array.isArray(p.description) ? p.description : [p.description || p.summary];
+    $("#modalDesc").innerHTML = desc.map((d) => `<li>${esc(d)}</li>`).join("");
+    $("#modalTags").innerHTML = (p.tags || []).map((t) => `<li>${esc(t)}</li>`).join("");
+    $("#modalLinks").innerHTML = (p.links || [])
+      .map((l) => `<a class="btn" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`).join("");
+
+    const multi = gallery.length > 1;
+    $("#thumbs").innerHTML = multi
+      ? gallery.map((g, i) => `<button type="button" data-i="${i}" aria-label="Photo ${i + 1}"><span class="sleeve-art">${sleeveArt(idx)}</span><img src="${esc(g.src)}" alt=""${imgStyle(g)} onerror="this.remove()"></button>`).join("")
+      : "";
+    $("#galPrev").hidden = !multi;
+    $("#galNext").hidden = !multi;
+
+    showImage(0);
+    modal.showModal();
+    document.body.style.overflow = "hidden";
+  }
+
+  function showImage(i) {
+    const img = $("#galleryImg");
+    if (!gallery.length) { img.style.display = "none"; $("#galleryCaption").textContent = ""; return; }
+    gIdx = (i + gallery.length) % gallery.length;
+    const g = gallery[gIdx];
+    img.style.display = "";
+    img.style.objectFit = g.fit === "contain" ? "contain" : "";
+    img.style.objectPosition = g.position || "";
+    img.style.background = g.fit === "contain" ? "var(--surface)" : "";
+    img.onerror = () => { img.style.display = "none"; };   // no photo yet → show the line-art sleeve
+    img.src = g.src;
+    img.alt = g.caption || projects[currentIdx].title;
+    $("#galleryCaption").textContent = (gallery.length > 1 ? `${gIdx + 1}/${gallery.length} · ` : "") + (g.caption || "");
+    document.querySelectorAll("#thumbs button").forEach((b, n) => b.classList.toggle("active", n === gIdx));
+  }
+
+  modal.addEventListener("close", () => { document.body.style.overflow = ""; if (lastFocus) lastFocus.focus(); });
+  $("#modalClose").addEventListener("click", () => modal.close());
+  $("#galPrev").addEventListener("click", () => showImage(gIdx - 1));
+  $("#galNext").addEventListener("click", () => showImage(gIdx + 1));
+  $("#thumbs").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) showImage(+b.dataset.i); });
+  modal.addEventListener("click", (e) => { if (e.target === modal) modal.close(); });
+  modal.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") showImage(gIdx - 1);
+    if (e.key === "ArrowRight") showImage(gIdx + 1);
+  });
+
+  /* ---------- Skills ---------- */
+  $("#skillsGrid").innerHTML = (C.skills || [])
+    .map((g) => `<div class="skill-group reveal"><h3>${esc(g.group)}</h3><ul>${g.items.map((s) => `<li>${esc(s)}</li>`).join("")}</ul></div>`)
+    .join("");
+
+  /* ---------- Contact ---------- */
+  $("#contactHeadline").textContent = C.contactHeadline;
+  $("#contactText").textContent = C.contactText;
+  $("#emailBtn").href = `mailto:${C.email}`;
+  $("#emailBtn").textContent = C.email;
+  const contactLinks = [
+    ...(C.socials || []),
+    C.resume && { label: "Résumé", url: C.resume },
+    C.portfolioPdf && { label: "PDF portfolio", url: C.portfolioPdf },
+  ].filter(Boolean);
+  $("#socials").innerHTML = contactLinks
+    .map((s) => `<li><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.label)} ↗</a></li>`).join("");
+
+  const toast = (msg) => {
+    const t = $("#toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(toast.timer);
+    toast.timer = setTimeout(() => t.classList.remove("show"), 2000);
+  };
+  $("#copyEmail").addEventListener("click", async () => {
+    try { await navigator.clipboard.writeText(C.email); toast("Email copied ♪"); }
+    catch { toast(C.email); }
+  });
+
+  $("#footerText").textContent = `© ${new Date().getFullYear()} ${C.name}`;
+
+  /* ---------- Fade sections in on scroll ---------- */
+  const io = "IntersectionObserver" in window
+    ? new IntersectionObserver((entries) => entries.forEach((en) => {
+        if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+      }), { threshold: 0.1 })
+    : null;
+  function observeReveals() {
+    document.querySelectorAll(".reveal:not(.in)").forEach((el) => (io ? io.observe(el) : el.classList.add("in")));
+  }
+
+  renderShelf();
+  observeReveals();
+
+  if (C.consoleMessage) console.log(`${C.name}: ${C.consoleMessage}\n→ ${C.email}`);
+})();
