@@ -22,7 +22,7 @@ window.PORTFOLIO = {
   resume: "assets/resume.pdf",
   portfolioPdf: "https://drive.google.com/file/d/1wNL47646Q7aJTWn6l1dW6U0sUfzBA4tb/view?usp=sharing",
   // Your photo, shown in the centre of the spinning record at the top of the page.
-  // Save a square-ish photo as images/me.jpg (or change the name here). Set to "" to hide it.
+  // Save a square-ish photo as images/projects/me.jpg (or change the name here). Set to "" to hide it.
   photo: "images/projects/me.jpg",
   photoSpins: false,                   // true = your photo spins with the record
   socials: [
@@ -33,7 +33,7 @@ window.PORTFOLIO = {
   accent: "",                          // leave "" for the grayish blue, or put any color like "#2f6fb0"
 
   // ---------- About ----------
-    about: [
+  about: [
     "I'm a Mechanical Engineering student at the University of Waterloo, currently on co-op in R&D Testing at Musashi North Americas and leading Chassis Safety & Ergonomics on UW Formula Electric.",
     "I'm happiest when a project takes me from CAD and virtual validation all the way to hands-on fabrication and physical testing. I'm always looking for chances to learn something new, especially in fields I haven't explored yet.",
   ],
@@ -70,6 +70,9 @@ window.PORTFOLIO = {
 
   // ---------- Projects (the record shelf) ----------
   // The first image is the album cover. Captions are optional.
+  // Covers are square, so photos get cropped to fit. Per photo you can add
+  //   fit: "contain"     → show the whole photo, no cropping
+  //   position: "top"    → keep the top in view when cropping ("bottom", "left", "right" work too)
   // Set upcoming: true to show a "coming soon" sticker on the sleeve.
   // Records alternate between vinyl and CD automatically. To choose, add
   // format: "cd" or format: "vinyl" to a project.
@@ -281,21 +284,6 @@ window.PORTFOLIO = {
       links: [],
     },
     {
-      title: "Headrest Locating Jig",
-      category: "Formula Electric",
-      year: 2026,
-      summary: "A jig that aligns the headrest during mounting so the car meets FSAE rollover safety rules.",
-      description: [
-        "I designed a headrest locating jig that holds the headrest in alignment while it's mounted, so it ends up in the right position every time.",
-        "Accurate headrest placement is part of meeting FSAE rollover safety rules, so the jig keeps the car compliant.",
-      ],
-      images: [
-        { src: "images/projects/jigs-2.jpg", caption: "Headrest locating jig" },
-      ],
-      tags: ["Jig design", "SolidWorks", "FSAE rules", "Rollover safety"],
-      links: [],
-    },
-    {
       title: "Pedal Welding Jigs",
       category: "Formula Electric",
       year: 2026,
@@ -310,6 +298,21 @@ window.PORTFOLIO = {
         { label: "positioning", value: "±0.1 mm" },
       ],
       tags: ["Jig design", "Welding", "SolidWorks"],
+      links: [],
+    },
+    {
+      title: "Headrest Locating Jig",
+      category: "Formula Electric",
+      year: 2026,
+      summary: "A jig that aligns the headrest during mounting so the car meets FSAE rollover safety rules.",
+      description: [
+        "I designed a headrest locating jig that holds the headrest in alignment while it's mounted, so it ends up in the right position every time.",
+        "Accurate headrest placement is part of meeting FSAE rollover safety rules, so the jig keeps the car compliant.",
+      ],
+      images: [
+        { src: "images/projects/jig-2.jpg", caption: "Headrest locating jig" },
+      ],
+      tags: ["Jig design", "SolidWorks", "FSAE rules", "Rollover safety"],
       links: [],
     },
     {
