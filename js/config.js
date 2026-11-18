@@ -277,6 +277,21 @@ window.PORTFOLIO = {
       links: [],
     },
     {
+      title: "Headrest Locating Jig",
+      category: "Formula Electric",
+      year: 2026,
+      summary: "A jig that aligns the headrest during mounting so the car meets FSAE rollover safety rules.",
+      description: [
+        "I designed a headrest locating jig that holds the headrest in alignment while it's mounted, so it ends up in the right position every time.",
+        "Accurate headrest placement is part of meeting FSAE rollover safety rules, so the jig keeps the car compliant.",
+      ],
+      images: [
+        { src: "images/projects/jig-2.jpg", caption: "Headrest locating jig" },
+      ],
+      tags: ["Jig design", "SolidWorks", "FSAE rules", "Rollover safety"],
+      links: [],
+    },
+    {
       title: "Pedal Welding Jigs",
       category: "Formula Electric",
       year: 2026,
