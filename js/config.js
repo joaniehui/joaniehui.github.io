@@ -25,6 +25,9 @@ window.PORTFOLIO = {
   // Save a square-ish photo as images/projects/me.jpg (or change the name here). Set to "" to hide it.
   photo: "images/projects/me.jpg",
   photoSpins: false,                   // true = your photo spins with the record
+  // Music for the turntable: drop the needle to play, lift it to stop.
+  // Paste a Spotify link to a song, album or playlist (Spotify app → ⋯ → Share → Copy link).
+  turntableSpotify: "https://open.spotify.com/album/5U2cyX2FRa8CjzdMpqZNJl",
   socials: [
     { label: "LinkedIn", url: "https://www.linkedin.com/in/joaniehui/" },
   ],
